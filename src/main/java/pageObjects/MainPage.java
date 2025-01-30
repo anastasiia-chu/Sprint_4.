@@ -13,16 +13,12 @@ public class MainPage {
     private final WebDriver driver;
     // кнопка принять куки
     protected final By acceptCookiesButton = By.className("App_CookieButton__3cvqF");
-   //кнопка Заказать вверху страницы
+    //кнопка Заказать вверху страницы
     protected final By createOrderButtonInHeader = By.xpath("//button[text() = 'Заказать'][1]");
-   //кнопка Заказать в середине страницы
+    //кнопка Заказать в середине страницы
     protected final By createOrderButtonInMiddle = By.xpath("//button[text() = 'Заказать'][2]");
-   //Кнопки открытия ответа на вопрос
+    //Кнопки открытия ответа на вопрос
     protected final By questionsButtons = By.xpath("//div[contains(@id, 'accordion__heading-')]");
-    //Текст ответов
-    protected final By answerForQuestion = By.xpath("//p[text()]");
-
-
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -30,10 +26,10 @@ public class MainPage {
 
     public void openMainPage() throws Exception {
         driver.get("https://qa-scooter.praktikum-services.ru/");
-        Thread.sleep(10_000);
+        Thread.sleep(5_000);
     }
 
-    public void clickAcceptCoockies() {
+    public void clickAcceptCookies() {
         driver.findElement(acceptCookiesButton).click();
     }
 
@@ -42,14 +38,19 @@ public class MainPage {
     }
 
     public void clickCreateOrderButtonInMiddle() {
+        WebElement element = driver.findElement(createOrderButtonInMiddle);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
         driver.findElement(createOrderButtonInMiddle).click();
     }
 
     public void checkAnswerText(String question, String answer) {
         WebElement element = driver.findElement(questionsButtons);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-        driver.findElement(questionsButtons).click();
-        assertTrue(driver.findElement(By.xpath("//p[text()]")).isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+        String questionsButton = String.format("//div[text() = '%s']", question);
+        driver.findElement(By.xpath(questionsButton)).click();
+        String expectedText = String.format("//p[text() = '%s']", answer);
+        assertTrue(driver.findElement(By.xpath(expectedText)).isDisplayed());
+
 
     }
 }

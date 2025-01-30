@@ -31,8 +31,8 @@ public class CreateOrderTests {
         this.phone = phone;
         this.index = index;
         this.date = date;
-        this.period = period;
         this.color = color;
+        this.period = period;
         this.comment = comment;
     }
 
@@ -44,9 +44,9 @@ public class CreateOrderTests {
     public static Object[][] fillCustomerData() {
         return new Object[][]{
                 {"Анастасия", "Пупкина", "Москва, Вымышленная ул, 2к5,кв.3", "89112344321",
-                        "3", "25.02.2025", "сутки", "black", "блабла"},
-                {"Петр", "Иванов", "Спб, Фантазийный пр, 1111", "+79004564545",
-                        "5", "02.03.2025", "трое суток", "grey", " "},
+                        "3", "25.02.2025", "grey", "сутки", "блабла"},
+                {"Петр", "ИВАНОВ", "Спб, Фантазийный пр, 1111", "+79004564545",
+                        "10", "02.03.2025", "black", "трое суток" , " "},
         };
 
     }
@@ -57,14 +57,33 @@ public class CreateOrderTests {
         MainPage mainPage = new MainPage(driver);
         FillPersonalDataPage fillPersonalData = new FillPersonalDataPage(driver);
         mainPage.openMainPage();
-        mainPage.clickAcceptCoockies();
+        mainPage.clickAcceptCookies();
         mainPage.clickCreateOrderButtonInHeader();
         fillPersonalData.fillPersonalData(name, lastName, address, phone);
         fillPersonalData.clickToOpenMetroStations();
-        fillPersonalData.clickToChooseStation(index);
+        fillPersonalData.clickOnStationToChoose(index);
         fillPersonalData.clickNextButton();
         AboutRentPage aboutRentPage = new AboutRentPage(driver);
-        aboutRentPage.fillRentData(date, period, color, comment);
+        aboutRentPage.fillRentData(date, color, period, comment);
+        aboutRentPage.clickToConfirmOrder();
+
+
+    }
+
+    @Test
+    public void createOrderUsingButtonInMiddle() throws Exception {
+        WebDriver driver = settings.getDriver();
+        MainPage mainPage = new MainPage(driver);
+        FillPersonalDataPage fillPersonalData = new FillPersonalDataPage(driver);
+        mainPage.openMainPage();
+        mainPage.clickAcceptCookies();
+        mainPage.clickCreateOrderButtonInMiddle();
+        fillPersonalData.fillPersonalData(name, lastName, address, phone);
+        fillPersonalData.clickToOpenMetroStations();
+        fillPersonalData.clickOnStationToChoose(index);
+        fillPersonalData.clickNextButton();
+        AboutRentPage aboutRentPage = new AboutRentPage(driver);
+        aboutRentPage.fillRentData(date, color, period, comment);
         aboutRentPage.clickToConfirmOrder();
 
 

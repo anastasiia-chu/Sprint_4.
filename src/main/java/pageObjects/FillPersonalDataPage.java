@@ -12,14 +12,12 @@ public class FillPersonalDataPage {
     protected final By lastNameField = By.xpath("//input[@placeholder ='* Фамилия']");
     //поле ввода адреса
     protected final By addressField = By.xpath("//input[@placeholder ='* Адрес: куда привезти заказ']");
-   //поле выбора метро
+    //поле выбора метро
     protected final By metroStationField = By.xpath("//input[@placeholder ='* Станция метро']");
     //поле ввода телефона
     protected final By phoneField = By.xpath("//input[@placeholder ='* Телефон: на него позвонит курьер']");
-   //Кнопка Далее
+    //Кнопка Далее
     protected final By nextButton = By.xpath("//button[text() = 'Далее']");
-    //выбор станции метро
-    protected final By metroStation = By.xpath("//li[@data-index]");
 
 
     public FillPersonalDataPage(WebDriver driver) {
@@ -42,8 +40,9 @@ public class FillPersonalDataPage {
         driver.findElement(metroStationField).click();
     }
 
-    public void clickToChooseStation(String index) {
-        driver.findElement(metroStation).click();
+    public void clickOnStationToChoose(String index) {
+        String colorCheckBox = String.format("//li[@data-index = '%s']", index);
+        driver.findElement(By.xpath(colorCheckBox)).click();
     }
 
 }

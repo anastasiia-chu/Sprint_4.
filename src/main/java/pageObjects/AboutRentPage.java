@@ -13,10 +13,6 @@ public class AboutRentPage {
     protected final By dateToBringField = By.xpath("//input[@placeholder ='* Когда привезти самокат']");
     // поле выбора срока аренды
     protected final By rentalPeriodField = By.xpath("//div[text() ='* Срок аренды']");
-    //элементы для выбора периода
-    protected final By choosePeriod = By.xpath("//div[@class = 'Dropdown-option' and text()]");
-    //чек-бокс выбора цвета
-    protected final By colorCheckBox = By.xpath("//label[@for]");
     //поле комментария
     protected final By commentField = By.xpath("//input[@placeholder = 'Комментарий для курьера']");
     //кнопка Заказать
@@ -24,19 +20,19 @@ public class AboutRentPage {
             "and text() = 'Заказать']");
     //Кнопка подтверждения заказа в модальном окне
     protected final By confirmOrderInModal = By.xpath("//button[text() = 'Да']");
-    //Модальное окно,подтвержающее офорлменный заказ
-    protected final By orderConfirmedModal = By.xpath("//div[@class = 'Order_ModalHeader__3FDaJ' and text() = 'Заказ оформлен']");
-
 
     public AboutRentPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void fillRentData(String date, String period, String color, String comment) throws InterruptedException {
+
+    public void fillRentData(String date, String period, String color, String comment) {
         driver.findElement(dateToBringField).sendKeys(date);
-        driver.findElement(colorCheckBox).click();
+        String colorCheckBox = String.format("//input[@id = '%s']",color);
+        driver.findElement(By.xpath(colorCheckBox)).click();
         driver.findElement(rentalPeriodField).click();
-        driver.findElement(choosePeriod).click();
+        String choosePeriod = String.format("//div[text()= '%s']",period);
+        driver.findElement(By.xpath(choosePeriod)).click();
         driver.findElement(commentField).sendKeys(comment);
     }
 
